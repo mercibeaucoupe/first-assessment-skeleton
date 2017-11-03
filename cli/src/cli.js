@@ -7,16 +7,20 @@ export const cli = vorpal()
 
 let username
 let server
+let userhost
+let userport
 
 cli
   .delimiter(cli.chalk['yellow']('ftd~$'))
 
 cli
-  .mode('connect <username>')
+  .mode('connect <username> <userhost> <userport>')
   .delimiter(cli.chalk['green']('connected>'))
   .init(function (args, callback) {
     username = args.username
-    server = connect({ host: 'localhost', port: 8080 }, () => {
+    userhost = args.userhost
+    userport = args.userport
+    server = connect({ host: userhost, port: userport }, () => {
       server.write(new Message({ username, command: 'connect' }).toJSON() + '\n')
       callback()
     })
@@ -37,9 +41,12 @@ cli
       server.end(new Message({ username, command }).toJSON() + '\n')
     } else if (command === 'echo') {
       server.write(new Message({ username, command, contents }).toJSON() + '\n')
+    } else if (command === 'broadcast') {
+      server.write(new Message({ username, command, contents }).toJSON() + '\n')
+    } else if (command === 'users') {
+      server.write(new Message({ username, command, contents }).toJSON() + '\n')    
     } else {
-      this.log(`Command <${command}> was not recognized`)
+      server.write(new Message({ username, command, contents }).toJSON() + '\n' )
     }
-
     callback()
   })

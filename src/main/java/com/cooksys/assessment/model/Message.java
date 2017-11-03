@@ -1,10 +1,22 @@
 package com.cooksys.assessment.model;
 
-public class Message {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class Message {
+    @JsonProperty("username")
 	private String username;
+    
+    @JsonProperty("command")
 	private String command;
+    
+    @JsonProperty("contents")
 	private String contents;
+    
+    @JsonProperty("time")
+    private String time;
+    
+    @JsonProperty("type")
+    private String type;
 
 	public String getUsername() {
 		return username;
@@ -28,6 +40,22 @@ public class Message {
 
 	public void setContents(String contents) {
 		this.contents = contents;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
